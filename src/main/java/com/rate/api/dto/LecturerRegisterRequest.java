@@ -8,6 +8,8 @@ public record LecturerRegisterRequest(
         String password,
         Role role,
         String fullName,
-        Degree degree
+        String email,
+        Degree degree,
+        String departmentId
         ) {
 }

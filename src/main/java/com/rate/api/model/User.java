@@ -29,39 +29,45 @@ public abstract class User implements UserDetails {
     @Column(name = "`password`")
     private String password;
 
-    @Column(name = "`role`")
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     @Column(name = "`fullName`")
     private String fullName;
 
-    @Column(name = "`isAccountExpired`")
-    private Boolean isAccountExpired;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "faculty_id", referencedColumnName = "id", nullable = false)
+//    @ToString.Exclude
+//    private Faculty faculty;
 
-    @Column(name = "`isAccountLocked`")
-    private Boolean isAccountLocked;
+    @Column(name = "`email`")
+    private String email;
 
-    @Column(name = "`isCredentialsExpired`")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    private Boolean isExpired;
+
+    private Boolean isLocked;
+
     private Boolean isCredentialsExpired;
 
-    @Column(name = "`isEnabled`")
     private Boolean isEnabled;
+
 
     public User(String login,
                 String password,
-                Role role,
                 String fullName,
-                Boolean isAccountExpired,
-                Boolean isAccountLocked,
+                String email,
+                Role role,
+                Boolean isExpired,
+                Boolean isLocked,
                 Boolean isCredentialsExpired,
                 Boolean isEnabled) {
         this.login = login;
         this.password = password;
-        this.role = role;
         this.fullName = fullName;
-        this.isAccountExpired = isAccountExpired;
-        this.isAccountLocked = isAccountLocked;
+        this.email = email;
+        this.role = role;
+        this.isExpired = isExpired;
+        this.isLocked = isLocked;
         this.isCredentialsExpired = isCredentialsExpired;
         this.isEnabled = isEnabled;
     }
@@ -72,23 +78,18 @@ public abstract class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
     public String getUsername() {
         return login;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return !isAccountExpired;
+        return !isExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return !isAccountLocked;
+        return !isLocked;
     }
 
     @Override

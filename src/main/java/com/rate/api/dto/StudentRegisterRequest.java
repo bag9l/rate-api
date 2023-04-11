@@ -6,7 +6,9 @@ public record StudentRegisterRequest(
         String login,
         String password,
         Role role,
+        String email,
         String fullName,
-        String group
+        Integer course,
+        String groupId
 ) {
 }
