@@ -1,7 +1,7 @@
 spring:
   datasource:
-    username: rateowner
-    password: rateowner
+    username: rate_owner
+    password: rate_owner
     url: jdbc:postgresql://localhost:5432/ratedb
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
