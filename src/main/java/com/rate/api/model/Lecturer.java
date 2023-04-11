@@ -17,16 +17,15 @@ public class Lecturer extends User{
     @Enumerated(EnumType.STRING)
     private Degree degree;
 
-    public Lecturer(String id,
-                    String login,
+    public Lecturer(String login,
                     String password,
                     String fullName,
+                    Degree degree,
                     Boolean isAccountExpired,
                     Boolean isAccountLocked,
                     Boolean isCredentialsExpired,
-                    Boolean isEnabled,
-                    Degree degree) {
-        super(id, login, password, Role.LECTURER, fullName, isAccountExpired, isAccountLocked, isCredentialsExpired, isEnabled);
+                    Boolean isEnabled) {
+        super(login, password, Role.LECTURER, fullName, isAccountExpired, isAccountLocked, isCredentialsExpired, isEnabled);
         this.degree = degree;
     }
 }

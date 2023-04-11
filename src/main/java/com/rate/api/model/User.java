@@ -12,12 +12,11 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString()
 @MappedSuperclass
-public class User implements UserDetails {
+public abstract class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -49,7 +48,23 @@ public class User implements UserDetails {
     @Column(name = "`isEnabled`")
     private Boolean isEnabled;
 
-
+    public User(String login,
+                String password,
+                Role role,
+                String fullName,
+                Boolean isAccountExpired,
+                Boolean isAccountLocked,
+                Boolean isCredentialsExpired,
+                Boolean isEnabled) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.fullName = fullName;
+        this.isAccountExpired = isAccountExpired;
+        this.isAccountLocked = isAccountLocked;
+        this.isCredentialsExpired = isCredentialsExpired;
+        this.isEnabled = isEnabled;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

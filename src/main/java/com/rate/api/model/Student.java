@@ -18,15 +18,15 @@ public class Student extends User{
     @Column(name = "`group`")
     private String group;
 
-    public Student(String id,
-                   String login,
+    public Student(String login,
                    String password,
                    String fullName,
+                   String group,
                    Boolean isAccountExpired,
                    Boolean isAccountLocked,
                    Boolean isCredentialsExpired,
-                   Boolean isEnabled, String group) {
-        super(id, login, password, Role.STUDENT, fullName, isAccountExpired, isAccountLocked, isCredentialsExpired, isEnabled);
+                   Boolean isEnabled) {
+        super(login, password, Role.STUDENT, fullName, isAccountExpired, isAccountLocked, isCredentialsExpired, isEnabled);
         this.group = group;
     }
 }
