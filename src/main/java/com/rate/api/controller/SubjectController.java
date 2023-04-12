@@ -3,7 +3,7 @@ package com.rate.api.controller;
 import com.rate.api.model.Lecturer;
 import com.rate.api.model.Subject;
 import com.rate.api.model.User;
-import com.rate.api.service.LecturerService;
+import com.rate.api.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,31 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("lecturers")
+@RequestMapping("subjects")
 @RestController
-public class LecturerController {
+public class SubjectController {
 
-    private final LecturerService lecturerService;
+    private final SubjectService subjectService;
 
-//    @GetMapping("subjects")
-//    public ResponseEntity<List<Subject>> getSubjects(@AuthenticationPrincipal Lecturer lecturer){
-//        return ResponseEntity.status(HttpStatus.OK).body(
-//                lecturerService.getSubjectsByLogin(lecturer.getLogin())
-//        );
-//    }
-
-    @GetMapping()
-    public ResponseEntity<List<Lecturer>> getLecturers(@AuthenticationPrincipal User user){
+    @GetMapping("{id}")
+    public ResponseEntity<Subject> getSubjectById(@PathVariable("id")String id){
         return ResponseEntity.status(HttpStatus.OK).body(
-                lecturerService.getLectors(user.getLogin())
+                subjectService.getSubjectById(id)
         );
     }
 
-
-    @GetMapping("{id}")
-    public ResponseEntity<Lecturer> getLecturerById(@PathVariable("id")String id){
+    @GetMapping()
+    public ResponseEntity<List<Subject>> getSubjects(@AuthenticationPrincipal User user){
         return ResponseEntity.status(HttpStatus.OK).body(
-                lecturerService.getLecturerById(id)
+                subjectService.getSubjectsByLogin(user.getLogin())
         );
     }
 }

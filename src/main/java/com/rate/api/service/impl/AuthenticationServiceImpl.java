@@ -95,9 +95,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
 
-        User user = studentRepository.findByLogin(request.login()).orElse(null);
+        User user = studentRepository.findStudentByLogin(request.login()).orElse(null);
         if (user == null) {
-            user = lecturerRepository.findByLogin(request.login())
+            user = lecturerRepository.findLecturerByLogin(request.login())
                     .orElseThrow(() ->
                             new EntityNotExistsException("User with username: " + request.login() + " not found"));
 
@@ -108,8 +108,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String jwt = jwtService.generateToken(user);
         return new AuthenticationResponse(jwt);
-//                .builder()
-//                .token(jwt)
-//                .build();
     }
 }

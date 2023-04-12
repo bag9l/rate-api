@@ -20,12 +20,11 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @GetMapping("subjects")
-//    public ResponseEntity<List<Subject>> getSubjects(Authentication authentication){
-    public ResponseEntity<List<Subject>> getSubjects(@AuthenticationPrincipal Student student){
-        return ResponseEntity.status(HttpStatus.OK).body(
-                studentService.getSubjectsByLogin(student.getLogin())
-        );
-    }
+//    @GetMapping("subjects")
+//    public ResponseEntity<List<Subject>> getSubjects(@AuthenticationPrincipal Student student){
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                studentService.getSubjectsByLogin(student.getLogin())
+//        );
+//    }
 
 }

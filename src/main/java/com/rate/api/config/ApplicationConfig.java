@@ -24,10 +24,21 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
+
+//        return (login -> {
+//            User user = studentRepository.findStudentByLogin(login).orElse(null);
+//            if (user == null) {
+//                user = lecturerRepository.findLecturerByLogin(login)
+//                        .orElseThrow(() ->
+//                                new EntityNotExistsException("User with username:" + login + " not found"));
+//
+//            }
+//            return user;
+//        });
         return (login -> {
-            User user = studentRepository.findByLogin(login).orElse(null);
+            User user = studentRepository.findStudentByLogin(login).orElse(null);
             if (user == null) {
-                user = lecturerRepository.findByLogin(login)
+                user = lecturerRepository.findLecturerByLogin(login)
                         .orElseThrow(() ->
                                 new EntityNotExistsException("User with login" + login + " not found"));
 
