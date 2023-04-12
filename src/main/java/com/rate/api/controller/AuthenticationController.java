@@ -23,7 +23,6 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
 
-    @CrossOrigin
     @PostMapping(path = "login")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(

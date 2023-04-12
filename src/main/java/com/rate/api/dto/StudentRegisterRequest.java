@@ -5,7 +5,7 @@ import com.rate.api.model.Role;
 public record StudentRegisterRequest(
         String login,
         String password,
-        Role role,
+//        Role role,
         String email,
         String fullName,
         Integer course,
