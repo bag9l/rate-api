@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,11 +51,14 @@ public class AuthenticationController {
 //    }
 
     @PostMapping("/success")
-    public ResponseEntity<String> getRole(@AuthenticationPrincipal User user) {
+    public ResponseEntity<String> getRole(@AuthenticationPrincipal UserDetails user) {
         System.out.println("*********************************");
         System.out.println("SUCCESS");
         System.out.println("*********************************");
 
-        return ResponseEntity.status(HttpStatus.OK).body(user.getRole().getValue());
+        return ResponseEntity.status(HttpStatus.OK).body(user.getAuthorities().stream()
+                .findFirst()
+                .get()
+                .toString());
     }
 }
