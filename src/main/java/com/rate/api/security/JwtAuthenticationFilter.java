@@ -37,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         final String authenticationHeader = request.getHeader("Authorization");
         System.out.println("///////////////////////////////");
         System.out.println("header");

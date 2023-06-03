@@ -49,7 +49,7 @@ public class AuthenticationController {
 //        return ResponseEntity.status(HttpStatus.OK).body(user);
 //    }
 
-    @PostMapping("/login-success")
+    @PostMapping("/success")
     public ResponseEntity<String> getRole(@AuthenticationPrincipal User user) {
         System.out.println("*********************************");
         System.out.println("SUCCESS");
