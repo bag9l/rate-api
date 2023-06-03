@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString()
+//@ToString()
 @MappedSuperclass
 public abstract class User implements UserDetails {
 
@@ -61,6 +61,7 @@ public abstract class User implements UserDetails {
                 Boolean isLocked,
                 Boolean isCredentialsExpired,
                 Boolean isEnabled) {
+//        System.out.println(isExpired);
         this.login = login;
         this.password = password;
         this.fullName = fullName;
@@ -100,5 +101,21 @@ public abstract class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", isExpired=" + isExpired +
+                ", isLocked=" + isLocked +
+                ", isCredentialsExpired=" + isCredentialsExpired +
+                ", isEnabled=" + isEnabled +
+                '}';
     }
 }

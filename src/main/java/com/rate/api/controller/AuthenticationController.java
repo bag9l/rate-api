@@ -28,16 +28,19 @@ public class AuthenticationController {
 
     @PostMapping(path = "login")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        System.out.println("/////////////////////////////////");
+        System.out.println("In AuthenticationController.authenticate()");
         System.out.println(request);
         return ResponseEntity.status(HttpStatus.OK).body(
                 authenticationService.authenticate(request)
         );
     }
 
-    @GetMapping("/loginSuccess")
+    @PostMapping("/login-success")
     public ResponseEntity<User> getLoginInfo(@AuthenticationPrincipal User user,
                                              HttpServletResponse response) throws IOException {
+        System.out.println("*********************************");
+        System.out.println("SUCCESS");
+        System.out.println("*********************************");
         if (user.getAuthorities()
                 .contains(new SimpleGrantedAuthority(Role.LECTURER.name())) || user.getAuthorities()
                 .contains(new SimpleGrantedAuthority(Role.STUDENT.name()))) {

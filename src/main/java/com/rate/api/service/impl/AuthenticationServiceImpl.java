@@ -34,8 +34,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse registerStudent(StudentRegisterRequest request) {
 
-        Group group = groupRepository.findById(request.groupId()).orElseThrow(() ->
-                new EntityNotExistsException("Group with id:" + request.groupId() + " not found"));
+//        Group group = groupRepository.findById(request.groupId()).orElseThrow(() ->
+//                new EntityNotExistsException("Group with id:" + request.groupId() + " not found"));
 
         User user = new Student(
                 request.login(),
@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 request.fullName(),
                 request.email(),
                 request.course(),
-                group,
+                null,
                 false,
                 false,
                 false,
@@ -85,6 +85,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        System.out.println("IN AUTHENTICATION SERVICE");
         System.out.println("////////////////////////////////////////////////////////////");
         System.out.println(request);
         System.out.println("////////////////////////////////////////////////////////////");

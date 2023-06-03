@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString()
+//@ToString()
 @Table(name = "`student`")
 @Entity
 public class Student extends User {
@@ -34,5 +34,13 @@ public class Student extends User {
         super(login, password, fullName, email, Role.STUDENT, isExpired, isLocked, isCredentialsExpired, isEnabled);
         this.course = course;
         this.group = group;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+ "Student{" +
+                "course=" + course +
+                ", group=" + group +
+                '}';
     }
 }

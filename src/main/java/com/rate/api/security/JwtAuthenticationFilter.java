@@ -29,11 +29,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("///////////////////////////////");
+        System.out.println("IN FILTER");
+        System.out.println("///////////////////////////////");
+
         if (request.getServletPath().contains("/login")) {
             filterChain.doFilter(request, response);
             return;
         }
         final String authenticationHeader = request.getHeader("Authorization");
+        System.out.println("///////////////////////////////");
+        System.out.println("header");
+        System.out.println(authenticationHeader);
+        System.out.println("///////////////////////////////");
+
         final String jwt;
         final String username;
         if (authenticationHeader == null || !authenticationHeader.startsWith("Bearer ")) {
@@ -57,6 +66,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-
     }
 }

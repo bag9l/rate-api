@@ -1,20 +1,14 @@
 package com.rate.api.dto;
 
-import com.rate.api.model.Degree;
 import com.rate.api.model.Role;
 
-import java.util.Optional;
-
-public record StudentRegisterRequest(
+public record RegisterRequest (
         String login,
         String password,
-//        Role role,
+        Role role,
         String email,
         String fullName,
         Integer course,
         String groupId
-//        Degree degree,
-//        String departmentId
-) {
-
+){
 }
