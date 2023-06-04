@@ -5,7 +5,7 @@ public enum Role {
     LECTURER("LECTURER"),
     ADMIN("ADMIN");
 
-    private String value;
+    private final String value;
 
     Role(String value) {
         this.value = value;

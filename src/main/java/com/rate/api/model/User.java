@@ -61,7 +61,6 @@ public abstract class User implements UserDetails {
                 Boolean isLocked,
                 Boolean isCredentialsExpired,
                 Boolean isEnabled) {
-//        System.out.println(isExpired);
         this.login = login;
         this.password = password;
         this.fullName = fullName;

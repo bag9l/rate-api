@@ -1,10 +1,8 @@
 package com.rate.api.service.impl;
 
-import com.rate.api.dto.AuthenticationRequest;
-import com.rate.api.dto.AuthenticationResponse;
-import com.rate.api.dto.LecturerRegisterRequest;
-import com.rate.api.dto.StudentRegisterRequest;
+import com.rate.api.dto.*;
 import com.rate.api.exception.EntityNotExistsException;
+import com.rate.api.mapper.UserMapper;
 import com.rate.api.model.*;
 import com.rate.api.repository.DepartmentRepository;
 import com.rate.api.repository.GroupRepository;
@@ -29,6 +27,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
+    private final UserMapper userMapper;
 
 
     @Override
@@ -101,7 +101,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user = lecturerRepository.findLecturerByLogin(request.login())
                     .orElseThrow(() ->
                             new EntityNotExistsException("User with username: " + request.login() + " not found"));
-
         }
 
 //        User user = userRepository.findByLogin(request.getLogin()).orElseThrow(() ->
@@ -109,5 +108,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String jwt = jwtService.generateToken(user);
         return new AuthenticationResponse(jwt);
+    }
+
+    @Override
+    public AuthenticatedUser getAuthenticatedUser(String login) {
+        User user = studentRepository.findStudentByLogin(login).orElse(null);
+        if (user == null) {
+            user = lecturerRepository.findLecturerByLogin(login)
+                    .orElseThrow(() ->
+                            new EntityNotExistsException("User with username: " + login + " not found"));
+        }
+
+        AuthenticatedUser authenticatedUser= userMapper.userToAuthenticatedUser(user);
+        return authenticatedUser;
     }
 }
