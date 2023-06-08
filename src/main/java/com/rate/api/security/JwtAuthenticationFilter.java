@@ -1,6 +1,7 @@
 package com.rate.api.security;
 
 import com.rate.api.service.JwtService;
+import com.rate.api.token.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,16 +23,16 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-//    @Qualifier("userDetailsService")
+    //    @Qualifier("userDetailsService")
     private final UserDetailsService userDetailsService;
+
+    private final TokenRepository tokenRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("///////////////////////////////");
         System.out.println("IN FILTER");
-        System.out.println("///////////////////////////////");
 
         if (request.getServletPath().contains("/login")) {
             filterChain.doFilter(request, response);
@@ -40,13 +41,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         final String authenticationHeader = request.getHeader("Authorization");
-        System.out.println("///////////////////////////////");
         System.out.println("header");
         System.out.println(authenticationHeader);
-        System.out.println("///////////////////////////////");
 
         final String jwt;
         final String username;
+
         if (authenticationHeader == null || !authenticationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -54,10 +54,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authenticationHeader.substring(7);
         username = jwtService.extractUsername(jwt);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            System.out.println("////////////////////////////////////////////////");
-            System.out.println(username);
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+            Boolean isTokenValid = tokenRepository.findByToken(jwt)
+                    .map(token -> !token.getIsExpired() && !token.getIsRevoked())
+                    .orElse(false);
+
+            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

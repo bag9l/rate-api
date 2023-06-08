@@ -10,6 +10,8 @@ import com.rate.api.repository.LecturerRepository;
 import com.rate.api.repository.StudentRepository;
 import com.rate.api.service.AuthenticationService;
 import com.rate.api.service.JwtService;
+import com.rate.api.token.Token;
+import com.rate.api.token.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +24,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final LecturerRepository lecturerRepository;
     private final StudentRepository studentRepository;
+
+    private final TokenRepository tokenRepository;
     private final DepartmentRepository departmentRepository;
     private final GroupRepository groupRepository;
     private final PasswordEncoder passwordEncoder;
@@ -50,9 +54,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 true
         );
 
-        studentRepository.save(user);
-
+        User savedUser = studentRepository.save(user);
         String jwt = jwtService.generateToken(user);
+
+        saveUserToken(savedUser, jwt);
+
         return new AuthenticationResponse(jwt);
     }
 
@@ -77,18 +83,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 true
         );
 
-        lecturerRepository.save(user);
-
+        User savedUser = lecturerRepository.save(user);
         String jwt = jwtService.generateToken(user);
+
+        saveUserToken(savedUser, jwt);
+
         return new AuthenticationResponse(jwt);
     }
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         System.out.println("IN AUTHENTICATION SERVICE");
-        System.out.println("////////////////////////////////////////////////////////////");
         System.out.println(request);
-        System.out.println("////////////////////////////////////////////////////////////");
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.login(),
@@ -107,6 +113,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 //                new EntityNotExistsException("User with username:" + request.getLogin() + " not found"));
 
         String jwt = jwtService.generateToken(user);
+
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwt);
+
         return new AuthenticationResponse(jwt);
     }
 
@@ -119,7 +129,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             new EntityNotExistsException("User with username: " + login + " not found"));
         }
 
-        AuthenticatedUser authenticatedUser= userMapper.userToAuthenticatedUser(user);
-        return authenticatedUser;
+        return userMapper.userToAuthenticatedUser(user);
     }
+
+    private void saveUserToken(User user, String jwtToken) {
+        Token token = new Token(jwtToken, false, false, user);
+        tokenRepository.save(token);
+    }
+
+    private void revokeAllUserTokens(User user) {
+        var validUserTokens = tokenRepository.findAllValidTokensForUser(user.getLogin());
+        if (validUserTokens.isEmpty())
+            return;
+        validUserTokens.forEach(token -> {
+            token.setIsExpired(true);
+            token.setIsRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
+    }
+
 }
