@@ -1,5 +1,7 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,6 +29,7 @@ public class Stream {
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "faculty_id", referencedColumnName = "id", nullable = true)
     @ToString.Exclude
+    @JsonBackReference
     private Faculty faculty;
 
     @OneToMany(
@@ -35,6 +38,7 @@ public class Stream {
             orphanRemoval = true
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Group> groups = new ArrayList<>();
 
     @OneToMany(
@@ -43,5 +47,6 @@ public class Stream {
             orphanRemoval = true
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Subject> subjects = new ArrayList<>();
 }

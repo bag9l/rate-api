@@ -1,5 +1,7 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -13,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString()
-@Table(name = "`lecturer`")
+@Table(name = "`educational_method`")
 @Entity
 public class EducationalMethod {
 
@@ -31,6 +33,7 @@ public class EducationalMethod {
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "subject_id", referencedColumnName = "id", nullable = true)
     @ToString.Exclude
+    @JsonBackReference
     private Subject subject;
 
     @OneToMany(
@@ -39,7 +42,7 @@ public class EducationalMethod {
             orphanRemoval = true
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
-
 
 }

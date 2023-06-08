@@ -1,5 +1,6 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,6 +31,7 @@ public class Faculty {
             orphanRemoval = true
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Department> departments = new ArrayList<>();
 
     @OneToMany(
@@ -38,6 +40,7 @@ public class Faculty {
             orphanRemoval = true
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Stream> streams = new ArrayList<>();
 
     @OneToOne

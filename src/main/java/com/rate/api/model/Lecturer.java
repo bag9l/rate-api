@@ -1,5 +1,7 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +13,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString()
 @Table(name = "`lecturer`")
 @Entity
 public class Lecturer extends User {
@@ -22,6 +23,7 @@ public class Lecturer extends User {
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "department_id", referencedColumnName = "id", nullable = true)
     @ToString.Exclude
+    @JsonBackReference
     private Department department;
 
     @OneToMany(
@@ -30,6 +32,7 @@ public class Lecturer extends User {
             orphanRemoval = true
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Subject> subjects = new ArrayList<>();
 
     @OneToMany(
@@ -38,6 +41,7 @@ public class Lecturer extends User {
             orphanRemoval = true
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Statistic> statistics = new ArrayList<>();
 
 
@@ -59,5 +63,16 @@ public class Lecturer extends User {
         this.degree = degree;
         this.department = department;
         this.statistics = statistics;
+    }
+
+    @Override
+    public String toString() {
+        return "Lecturer{" +
+                super.toString() +
+                "degree=" + degree +
+                ", department=" + department +
+                ", subjects=" + subjects +
+                ", statistics=" + statistics +
+                '}';
     }
 }

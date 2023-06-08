@@ -1,5 +1,7 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,10 +32,12 @@ public class Group {
             orphanRemoval = true
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Student> students = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "stream_id", referencedColumnName = "id", nullable = true)
     @ToString.Exclude
+    @JsonBackReference
     private Stream stream;
 }

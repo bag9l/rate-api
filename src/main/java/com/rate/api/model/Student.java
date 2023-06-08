@@ -1,5 +1,6 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,7 +8,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString()
 @Table(name = "`student`")
 @Entity
 public class Student extends User {
@@ -18,6 +18,7 @@ public class Student extends User {
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = true)
     @ToString.Exclude
+    @JsonBackReference
     private Group group;
 
 
@@ -38,7 +39,8 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        return super.toString()+ "Student{" +
+        return "Student{" +
+                super.toString() +
                 "course=" + course +
                 ", group=" + group +
                 '}';

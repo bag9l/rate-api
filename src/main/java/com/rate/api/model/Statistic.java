@@ -1,5 +1,6 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,7 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString()
-@Table(name = "`stream`")
+@Table(name = "`statistic`")
 @Entity
 public class Statistic {
 
@@ -21,6 +22,7 @@ public class Statistic {
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id", nullable = true)
     @ToString.Exclude
+    @JsonBackReference
     private Lecturer lecturer;
 
     @Column(name = "quality_of_teaching")

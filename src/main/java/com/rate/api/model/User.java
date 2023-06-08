@@ -1,5 +1,7 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.rate.api.token.Token;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,8 +16,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString()
-@MappedSuperclass
+@Entity
+@Table(name = "usr")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User implements UserDetails {
 
     @Id
@@ -32,16 +35,15 @@ public abstract class User implements UserDetails {
     @Column(name = "`fullName`")
     private String fullName;
 
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "faculty_id", referencedColumnName = "id", nullable = false)
-//    @ToString.Exclude
-//    private Faculty faculty;
-
     @Column(name = "`email`")
     private String email;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Token> tokens;
 
     private Boolean isExpired;
 
@@ -104,8 +106,7 @@ public abstract class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
+        return "id='" + id + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", fullName='" + fullName + '\'' +
@@ -114,7 +115,6 @@ public abstract class User implements UserDetails {
                 ", isExpired=" + isExpired +
                 ", isLocked=" + isLocked +
                 ", isCredentialsExpired=" + isCredentialsExpired +
-                ", isEnabled=" + isEnabled +
-                '}';
+                ", isEnabled=" + isEnabled;
     }
 }
