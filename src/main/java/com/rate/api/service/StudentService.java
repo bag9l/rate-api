@@ -1,9 +1,9 @@
 package com.rate.api.service;
 
-import com.rate.api.model.Subject;
+import com.rate.api.dto.SubjectDto;
 
 import java.util.List;
 
 public interface StudentService {
-    List<Subject> getSubjectsByLogin(String login);
+    List<SubjectDto> getSubjectsByLogin(String login);
 }

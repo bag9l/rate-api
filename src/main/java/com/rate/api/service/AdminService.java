@@ -1,10 +1,10 @@
 package com.rate.api.service;
 
-import com.rate.api.model.Department;
+import com.rate.api.dto.DepartmentDto;
 
 import java.util.List;
 
 public interface AdminService {
 
-    List<Department> getDepartmentsOfUserFacultyByUserLogin(String login);
+    List<DepartmentDto> getDepartmentsOfFacultyByAdminLogin(String login);
 }
