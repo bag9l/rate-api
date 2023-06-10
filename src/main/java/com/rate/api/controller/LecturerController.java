@@ -32,12 +32,12 @@ public class LecturerController {
         );
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Lecturer>> getLecturers(@AuthenticationPrincipal User user) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                lecturerService.getLectors(user.getLogin())
-        );
-    }
+//    @GetMapping()
+//    public ResponseEntity<List<Lecturer>> getLecturers(@AuthenticationPrincipal User user) {
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                lecturerService.getLectors(user.getLogin())
+//        );
+//    }
 
 
     @GetMapping("{id}")
