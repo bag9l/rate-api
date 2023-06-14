@@ -25,12 +25,12 @@ public class LecturerController {
 
     private final LecturerService lecturerService;
 
-    @GetMapping("my")
-    public ResponseEntity<List<SubjectDto>> getSubjects(@AuthenticationPrincipal UserDetails lecturer) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                lecturerService.getSubjectsByLogin(lecturer.getUsername())
-        );
-    }
+//    @GetMapping("my")
+//    public ResponseEntity<List<SubjectDto>> getSubjects(@AuthenticationPrincipal UserDetails lecturer) {
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                lecturerService.getSubjectsByLogin(lecturer.getUsername())
+//        );
+//    }
 
 //    @GetMapping()
 //    public ResponseEntity<List<Lecturer>> getLecturers(@AuthenticationPrincipal User user) {

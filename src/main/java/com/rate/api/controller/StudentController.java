@@ -21,13 +21,13 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @GetMapping("my")
-    @PreAuthorize("hasAuthority('STUDENT')")
-    public ResponseEntity<List<SubjectDto>> getSubjects(@AuthenticationPrincipal UserDetails student) {
-        System.out.println("?????? IN GETSUBJECTS");
-        return ResponseEntity.status(HttpStatus.OK).body(
-                studentService.getSubjectsByLogin(student.getUsername())
-        );
-    }
+//    @GetMapping("my")
+//    @PreAuthorize("hasAuthority('STUDENT')")
+//    public ResponseEntity<List<SubjectDto>> getSubjects(@AuthenticationPrincipal UserDetails student) {
+//        System.out.println("?????? IN GETSUBJECTS");
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                studentService.getSubjectsByLogin(student.getUsername())
+//        );
+//    }
 
 }

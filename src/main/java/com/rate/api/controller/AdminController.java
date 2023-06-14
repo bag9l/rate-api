@@ -21,10 +21,10 @@ public class AdminController {
     private final AdminService adminService;
 
 
-    @GetMapping("my")
-    public ResponseEntity<List<DepartmentDto>> getDepartments(@AuthenticationPrincipal UserDetails user) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                adminService.getDepartmentsOfFacultyByAdminLogin(user.getUsername())
-        );
-    }
+//    @GetMapping("my")
+//    public ResponseEntity<List<DepartmentDto>> getDepartments(@AuthenticationPrincipal UserDetails user) {
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                adminService.getDepartmentsOfFacultyByAdminLogin(user.getUsername())
+//        );
+//    }
 }

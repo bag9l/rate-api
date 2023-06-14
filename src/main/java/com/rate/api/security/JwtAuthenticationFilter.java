@@ -32,11 +32,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("IN FILTER");
 
         if (request.getServletPath().contains("/login")) {
             filterChain.doFilter(request, response);
-            System.out.println("////LOGIN///////");
             return;
         }
 

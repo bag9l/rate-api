@@ -7,7 +7,7 @@ import org.mapstruct.MappingConstants;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface SubjectMapper {
+public abstract class SubjectMapper {
 
-    SubjectDto subjectToDto(Subject subject);
+    public abstract SubjectDto subjectToDto(Subject subject);
 }

@@ -1,8 +1,8 @@
 package com.rate.api.controller;
 
-import com.rate.api.dto.AuthenticatedUser;
-import com.rate.api.dto.AuthenticationRequest;
-import com.rate.api.dto.AuthenticationResponse;
+import com.rate.api.dto.auth.AuthenticatedUser;
+import com.rate.api.dto.auth.AuthenticationRequest;
+import com.rate.api.dto.auth.AuthenticationResponse;
 import com.rate.api.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

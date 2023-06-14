@@ -1,13 +1,14 @@
 package com.rate.api.controller;
 
-import com.rate.api.model.Lecturer;
+import com.rate.api.dto.SubjectDto;
 import com.rate.api.model.Subject;
-import com.rate.api.model.User;
 import com.rate.api.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +31,10 @@ public class SubjectController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Subject>> getSubjects(@AuthenticationPrincipal User user){
+    @PreAuthorize("hasAnyAuthority({'STUDENT','LECTURER'})")
+    public ResponseEntity<List<SubjectDto>> getSubjects(@AuthenticationPrincipal UserDetails user) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                subjectService.getSubjectsByLogin(user.getLogin())
+                subjectService.getSubjectsByUserLogin(user.getUsername())
         );
     }
 }

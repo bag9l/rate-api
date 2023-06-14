@@ -7,7 +7,6 @@ import com.rate.api.model.Department;
 import com.rate.api.model.Faculty;
 import com.rate.api.repository.DepartmentRepository;
 import com.rate.api.repository.FacultyRepository;
-import com.rate.api.repository.UserRepository;
 import com.rate.api.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

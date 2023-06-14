@@ -5,7 +5,6 @@ import com.rate.api.dto.DepartmentDto;
 import com.rate.api.dto.LecturerDto;
 import com.rate.api.model.Department;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +22,14 @@ public abstract class DepartmentMapper {
 
     public DepartmentContent departmentToDepartmentContent(Department department) {
         List<LecturerDto> lecturerDtos = department.getLecturers().stream()
-                .map(lecturer -> userMapper.lecturerToDto(lecturer))
+                .map(userMapper::lecturerToDto)
                 .collect(Collectors.toList());
 
         return new DepartmentContent(department.getId(), department.getName(), lecturerDtos);
     }
 
     @Autowired
-    public void setUserMapper(UserMapper userMapper){
+    public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 }

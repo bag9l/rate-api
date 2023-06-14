@@ -1,4 +1,4 @@
-package com.rate.api.dto;
+package com.rate.api.dto.auth.register;
 
 import com.rate.api.model.Role;
 

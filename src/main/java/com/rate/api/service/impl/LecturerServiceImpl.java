@@ -45,7 +45,7 @@ public class LecturerServiceImpl implements LecturerService {
         Lecturer lecturer = lecturerRepository.findLecturerByLogin(login).orElse(null);
 
         if (student != null) {
-            return lecturerRepository.findLectorsByFacultyId(student.getGroup().getStream().getFaculty().getId());
+            return lecturerRepository.findLectorsByFacultyId(student.getGroup().getStream().getCourse().getFaculty().getId());
         } else if (lecturer != null) {
             return lecturerRepository.findLectorsByFacultyId(lecturer.getDepartment().getFaculty().getId());
         } else {

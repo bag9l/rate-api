@@ -1,13 +1,20 @@
 package com.rate.api.service.impl;
 
-import com.rate.api.dto.*;
+import com.rate.api.dto.CourseDto;
+import com.rate.api.dto.DepartmentDto;
+import com.rate.api.dto.auth.AuthenticatedUser;
+import com.rate.api.dto.auth.AuthenticationRequest;
+import com.rate.api.dto.auth.AuthenticationResponse;
+import com.rate.api.dto.auth.register.LecturerRegisterData;
+import com.rate.api.dto.auth.register.LecturerRegisterRequest;
+import com.rate.api.dto.auth.register.StudentRegisterData;
+import com.rate.api.dto.auth.register.StudentRegisterRequest;
 import com.rate.api.exception.EntityNotExistsException;
+import com.rate.api.mapper.CourseMapper;
+import com.rate.api.mapper.DepartmentMapper;
 import com.rate.api.mapper.UserMapper;
 import com.rate.api.model.*;
-import com.rate.api.repository.DepartmentRepository;
-import com.rate.api.repository.GroupRepository;
-import com.rate.api.repository.LecturerRepository;
-import com.rate.api.repository.StudentRepository;
+import com.rate.api.repository.*;
 import com.rate.api.service.AuthenticationService;
 import com.rate.api.service.JwtService;
 import com.rate.api.token.Token;
@@ -17,6 +24,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -24,15 +37,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final LecturerRepository lecturerRepository;
     private final StudentRepository studentRepository;
+    private final AdminRepository adminRepository;
 
     private final TokenRepository tokenRepository;
     private final DepartmentRepository departmentRepository;
+    private final CourseRepository courseRepository;
     private final GroupRepository groupRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     private final UserMapper userMapper;
+    private final CourseMapper courseMapper;
+    private final DepartmentMapper departmentMapper;
 
 
     @Override
@@ -46,7 +63,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 passwordEncoder.encode(request.password()),
                 request.fullName(),
                 request.email(),
-                request.course(),
                 null,
                 false,
                 false,
@@ -93,8 +109,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        System.out.println("IN AUTHENTICATION SERVICE");
-        System.out.println(request);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.login(),
@@ -102,15 +116,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
 
-        User user = studentRepository.findStudentByLogin(request.login()).orElse(null);
-        if (user == null) {
-            user = lecturerRepository.findLecturerByLogin(request.login())
-                    .orElseThrow(() ->
-                            new EntityNotExistsException("User with username: " + request.login() + " not found"));
-        }
-
-//        User user = userRepository.findByLogin(request.getLogin()).orElseThrow(() ->
-//                new EntityNotExistsException("User with username:" + request.getLogin() + " not found"));
+        User user = findUserByLogin(request.login());
 
         String jwt = jwtService.generateToken(user);
 
@@ -122,14 +128,49 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticatedUser getAuthenticatedUser(String login) {
-        User user = studentRepository.findStudentByLogin(login).orElse(null);
-        if (user == null) {
-            user = lecturerRepository.findLecturerByLogin(login)
-                    .orElseThrow(() ->
-                            new EntityNotExistsException("User with username: " + login + " not found"));
-        }
-
+        User user = findUserByLogin(login);
         return userMapper.userToAuthenticatedUser(user);
+    }
+
+    @Override
+    public StudentRegisterData getStudentRegisterData(String adminLogin) {
+        Admin admin = adminRepository.findAdminByLogin(adminLogin).orElseThrow(()->
+                new EntityNotExistsException("User with login:" + adminLogin + " not found"));
+        List<Course> courses = courseRepository.findAllCoursesForFacultyById(admin.getFaculty().getId());
+        List<CourseDto> courseDtos = courses.stream()
+                .map(courseMapper::courseToDto)
+                .collect(Collectors.toList());
+
+        return new StudentRegisterData(courseDtos);
+    }
+
+    @Override
+    public LecturerRegisterData getLecturerRegisterData(String adminLogin) {
+        Admin admin = adminRepository.findAdminByLogin(adminLogin).orElseThrow(()->
+                new EntityNotExistsException("User with login:" + adminLogin + " not found"));
+
+        List<Department> departments = departmentRepository.findDepartmentsByFacultyId(admin.getFaculty().getId());
+        List<DepartmentDto> departmentDtos = departments.stream()
+                .map(departmentMapper::departmentToDto)
+                .collect(Collectors.toList());
+
+        List<String> degrees = List.of(Arrays.toString(Degree.values()));
+
+        return new LecturerRegisterData(degrees,departmentDtos);
+    }
+
+    private User findUserByLogin(String login) {
+        Optional<Student> student = studentRepository.findStudentByLogin(login);
+        Optional<Lecturer> lecturer = lecturerRepository.findLecturerByLogin(login);
+        Optional<Admin> admin = adminRepository.findAdminByLogin(login);
+
+        if (student.isPresent()) {
+            return student.get();
+        } else if (lecturer.isPresent()) {
+            return lecturer.get();
+        } else if (admin.isPresent()) {
+            return admin.get();
+        } else throw new EntityNotExistsException("User with username: " + login + " not found");
     }
 
     private void saveUserToken(User user, String jwtToken) {
