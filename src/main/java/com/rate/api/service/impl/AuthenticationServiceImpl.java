@@ -55,15 +55,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse registerStudent(StudentRegisterRequest request) {
 
-//        Group group = groupRepository.findById(request.groupId()).orElseThrow(() ->
-//                new EntityNotExistsException("Group with id:" + request.groupId() + " not found"));
+        Group group = groupRepository.findById(request.groupId()).orElseThrow(() ->
+                new EntityNotExistsException("Group with id:" + request.groupId() + " not found"));
 
         User user = new Student(
                 request.login(),
                 passwordEncoder.encode(request.password()),
                 request.fullName(),
                 request.email(),
-                null,
+                group,
                 false,
                 false,
                 false,
