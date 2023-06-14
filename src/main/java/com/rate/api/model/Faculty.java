@@ -1,5 +1,6 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,17 +42,11 @@ public class Faculty {
     )
     @ToString.Exclude
     @JsonManagedReference
-    private List<Stream> streams = new ArrayList<>();
+    private List<Course> courses = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
     private Admin admin;
-
-//    @OneToMany(
-//            mappedBy = "faculty",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    @ToString.Exclude
-//    private List<Student> users = new ArrayList<>();
 }

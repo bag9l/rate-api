@@ -1,4 +1,4 @@
-package com.rate.api.dto;
+package com.rate.api.dto.auth;
 
 public record AuthenticatedUser(
         String login,

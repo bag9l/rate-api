@@ -10,7 +10,8 @@ import java.util.Optional;
 public interface FacultyRepository extends JpaRepository<Faculty, String> {
 
     @Query("SELECT f FROM Faculty f " +
-            "JOIN f.streams s " +
+            "JOIN f.courses c " +
+            "JOIN c.streams s " +
             "JOIN s.groups g " +
             "JOIN g.students student " +
             "WHERE student.login =:studentLogin")

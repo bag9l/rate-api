@@ -1,5 +1,6 @@
 package com.rate.api.model;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -13,40 +14,34 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString()
-@Table(name = "`stream`")
+@Table(name = "`course`")
 @Entity
-public class Stream {
+public class Course {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name = "`name`")
-    private String name;
+    @Column(name = "`degree`")
+    @Enumerated(EnumType.STRING)
+    private HigherEducationDegree degree;
+
+    @Column(name = "`course_number`")
+    private Integer courseNumber;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id", nullable = true)
     @ToString.Exclude
     @JsonBackReference
-    private Course course;
+    private Faculty faculty;
 
     @OneToMany(
-            mappedBy = "stream",
+            mappedBy = "course",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @ToString.Exclude
     @JsonManagedReference
-    private List<Group> groups = new ArrayList<>();
-
-    @OneToMany(
-            mappedBy = "stream",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @ToString.Exclude
-    @JsonManagedReference
-    private List<Subject> subjects = new ArrayList<>();
+    private List<Stream> streams = new ArrayList<>();
 }

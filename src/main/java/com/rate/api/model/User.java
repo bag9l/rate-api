@@ -38,6 +38,7 @@ public abstract class User implements UserDetails {
     @Column(name = "`email`")
     private String email;
 
+    @Column(name = "`role`")
     @Enumerated(EnumType.STRING)
     private Role role;
 
