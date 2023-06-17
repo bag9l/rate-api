@@ -45,4 +45,10 @@ public class EducationalMethod {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
+    public EducationalMethod(String name, EducationalMethodType type, Subject subject, List<Comment> comments) {
+        this.name = name;
+        this.type = type;
+        this.subject = subject;
+        this.comments = comments;
+    }
 }

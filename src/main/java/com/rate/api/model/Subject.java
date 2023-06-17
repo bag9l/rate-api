@@ -47,5 +47,10 @@ public class Subject {
     @JsonBackReference
     private Stream stream;
 
-
+    public Subject(String name, Lecturer lecturer, List<EducationalMethod> educationalMethods, Stream stream) {
+        this.name = name;
+        this.lecturer = lecturer;
+        this.educationalMethods = educationalMethods;
+        this.stream = stream;
+    }
 }

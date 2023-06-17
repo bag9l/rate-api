@@ -1,5 +1,7 @@
 package com.rate.api.controller;
 
+import com.rate.api.dto.NewEducationalMethod;
+import com.rate.api.dto.NewSubject;
 import com.rate.api.dto.SubjectDto;
 import com.rate.api.model.Subject;
 import com.rate.api.service.SubjectService;
@@ -9,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,10 +23,19 @@ public class SubjectController {
     private final SubjectService subjectService;
 
     @GetMapping("{id}")
-    public ResponseEntity<Subject> getSubjectById(@PathVariable("id")String id){
+    public ResponseEntity<Subject> getSubjectById(@PathVariable("id") String id) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 subjectService.getSubjectById(id)
         );
+    }
+
+    @PostMapping("{id}")
+    @PreAuthorize("hasAuthority('LECTURER')")
+    public ResponseEntity<Void> addEducationalMethod(@PathVariable("id") String id,
+                                                     @RequestBody NewEducationalMethod educationalMethod) {
+        subjectService.addEducationalMethodToSubject(id, educationalMethod);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping()
@@ -37,4 +45,14 @@ public class SubjectController {
                 subjectService.getSubjectsByUserLogin(user.getUsername())
         );
     }
+
+    @PostMapping("new")
+    @PreAuthorize("hasAuthority('LECTURER')")
+    public ResponseEntity<String> addSubject(@AuthenticationPrincipal UserDetails user,
+                                             @RequestBody NewSubject newSubject) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                subjectService.addSubjectForLecturer(user.getUsername(), newSubject)
+        );
+    }
+
 }

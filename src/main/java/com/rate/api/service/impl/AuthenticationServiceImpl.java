@@ -38,18 +38,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final LecturerRepository lecturerRepository;
     private final StudentRepository studentRepository;
     private final AdminRepository adminRepository;
-
     private final TokenRepository tokenRepository;
     private final DepartmentRepository departmentRepository;
     private final CourseRepository courseRepository;
     private final GroupRepository groupRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
 
     private final UserMapper userMapper;
     private final CourseMapper courseMapper;
     private final DepartmentMapper departmentMapper;
+
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
 
     @Override
@@ -134,7 +134,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public StudentRegisterData getStudentRegisterData(String adminLogin) {
-        Admin admin = adminRepository.findAdminByLogin(adminLogin).orElseThrow(()->
+        Admin admin = adminRepository.findAdminByLogin(adminLogin).orElseThrow(() ->
                 new EntityNotExistsException("User with login:" + adminLogin + " not found"));
         List<Course> courses = courseRepository.findAllCoursesForFacultyById(admin.getFaculty().getId());
         List<CourseDto> courseDtos = courses.stream()
@@ -146,7 +146,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public LecturerRegisterData getLecturerRegisterData(String adminLogin) {
-        Admin admin = adminRepository.findAdminByLogin(adminLogin).orElseThrow(()->
+        Admin admin = adminRepository.findAdminByLogin(adminLogin).orElseThrow(() ->
                 new EntityNotExistsException("User with login:" + adminLogin + " not found"));
 
         List<Department> departments = departmentRepository.findDepartmentsByFacultyId(admin.getFaculty().getId());
@@ -156,7 +156,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         List<String> degrees = List.of(Arrays.toString(Degree.values()));
 
-        return new LecturerRegisterData(degrees,departmentDtos);
+        return new LecturerRegisterData(degrees, departmentDtos);
     }
 
     private User findUserByLogin(String login) {
