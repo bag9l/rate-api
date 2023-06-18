@@ -1,19 +1,20 @@
 package com.rate.api.controller;
 
+import com.rate.api.dto.NewComment;
 import com.rate.api.model.EducationalMethodType;
 import com.rate.api.service.EducationalMethodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("educational-method")
+@RequestMapping("educational-methods")
 @RestController
 public class EducationalMethodController {
 
@@ -26,5 +27,14 @@ public class EducationalMethodController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 educationalMethodService.getEducationalMethodTypes()
         );
+    }
+
+    @PostMapping("{id}")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<Void> addCommentToEducationalMethod(@AuthenticationPrincipal UserDetails student,
+                                                              @PathVariable("id") String id,
+                                                              @RequestBody NewComment comment) {
+        educationalMethodService.addCommentToEducationalMethod(id, comment, student.getUsername());
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

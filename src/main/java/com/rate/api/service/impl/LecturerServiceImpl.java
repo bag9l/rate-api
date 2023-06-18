@@ -35,7 +35,6 @@ public class LecturerServiceImpl implements LecturerService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     @Override
     public LecturerProfile getLecturerById(String id) {
         Lecturer lecturer = lecturerRepository.findLecturerById(id).orElseThrow(() ->

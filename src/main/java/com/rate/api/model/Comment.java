@@ -1,7 +1,6 @@
 package com.rate.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -33,9 +32,20 @@ public class Comment {
     @Column(name = "`date`")
     private LocalDate date;
 
+    @Column(name = "`score`")
+    private Double score;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "educationalMethod_id", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "educational_method_id", referencedColumnName = "id", nullable = true)
     @ToString.Exclude
     @JsonBackReference
     private EducationalMethod educationalMethod;
+
+    public Comment(Student owner, String text, LocalDate date, Double score, EducationalMethod educationalMethod) {
+        this.owner = owner;
+        this.text = text;
+        this.date = date;
+        this.score = score;
+        this.educationalMethod = educationalMethod;
+    }
 }
