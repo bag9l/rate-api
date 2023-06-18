@@ -1,49 +1,40 @@
 package com.rate.api.controller;
 
-import com.rate.api.dto.SubjectDto;
-import com.rate.api.model.Lecturer;
-import com.rate.api.model.User;
+import com.rate.api.dto.LecturerProfile;
+import com.rate.api.dto.NewStatistic;
+import com.rate.api.model.Statistic;
 import com.rate.api.service.LecturerService;
+import com.rate.api.service.StatisticService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("lecturer")
-@PreAuthorize("hasRole('LECTURER')")
+@RequestMapping("lecturers")
 @RestController
 public class LecturerController {
 
     private final LecturerService lecturerService;
-
-//    @GetMapping("my")
-//    public ResponseEntity<List<SubjectDto>> getSubjects(@AuthenticationPrincipal UserDetails lecturer) {
-//        return ResponseEntity.status(HttpStatus.OK).body(
-//                lecturerService.getSubjectsByLogin(lecturer.getUsername())
-//        );
-//    }
-
-//    @GetMapping()
-//    public ResponseEntity<List<Lecturer>> getLecturers(@AuthenticationPrincipal User user) {
-//        return ResponseEntity.status(HttpStatus.OK).body(
-//                lecturerService.getLectors(user.getLogin())
-//        );
-//    }
+    private final StatisticService statisticService;
 
 
     @GetMapping("{id}")
-    public ResponseEntity<Lecturer> getLecturerById(@PathVariable("id") String id) {
+    public ResponseEntity<LecturerProfile> getLecturerById(@PathVariable("id") String id) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 lecturerService.getLecturerById(id)
         );
+    }
+
+    @PostMapping("{id}")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<LecturerProfile> addResponseForLecturer(@AuthenticationPrincipal UserDetails student,
+                                                                  @PathVariable("id") String id,
+                                                                  @RequestBody NewStatistic statistic) {
+        statisticService.addStatistic(statistic,student.getUsername(), id);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

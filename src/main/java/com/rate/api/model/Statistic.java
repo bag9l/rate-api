@@ -25,6 +25,10 @@ public class Statistic {
     @JsonBackReference
     private Lecturer lecturer;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private Student owner;
+
     @Column(name = "quality_of_teaching")
     private Double qualityOfTeaching;
 
@@ -33,4 +37,21 @@ public class Statistic {
 
     @Column(name = "objectivity_of_assessment")
     private Double objectivityOfAssessment;
+
+    @Column(name = "`comment`")
+    private String comment;
+
+    public Statistic(Lecturer lecturer,
+                     Student owner,
+                     Double qualityOfTeaching,
+                     Double methodologicalSupport,
+                     Double objectivityOfAssessment,
+                     String comment) {
+        this.lecturer = lecturer;
+        this.owner = owner;
+        this.qualityOfTeaching = qualityOfTeaching;
+        this.methodologicalSupport = methodologicalSupport;
+        this.objectivityOfAssessment = objectivityOfAssessment;
+        this.comment = comment;
+    }
 }
