@@ -5,6 +5,7 @@ import com.rate.api.dto.NewSubject;
 import com.rate.api.dto.SubjectDto;
 import com.rate.api.model.Subject;
 import com.rate.api.service.SubjectService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class SubjectController {
     @PostMapping("{id}")
     @PreAuthorize("hasAuthority('LECTURER')")
     public ResponseEntity<Void> addEducationalMethod(@PathVariable("id") String id,
-                                                     @RequestBody NewEducationalMethod educationalMethod) {
+                                                     @Valid @RequestBody NewEducationalMethod educationalMethod) {
         subjectService.addEducationalMethodToSubject(id, educationalMethod);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -49,7 +50,7 @@ public class SubjectController {
     @PostMapping("new")
     @PreAuthorize("hasAuthority('LECTURER')")
     public ResponseEntity<String> addSubject(@AuthenticationPrincipal UserDetails user,
-                                             @RequestBody NewSubject newSubject) {
+                                             @Valid @RequestBody NewSubject newSubject) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 subjectService.addSubjectForLecturer(user.getUsername(), newSubject)
         );

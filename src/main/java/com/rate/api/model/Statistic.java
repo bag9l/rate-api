@@ -38,7 +38,7 @@ public class Statistic {
     @Column(name = "objectivity_of_assessment")
     private Double objectivityOfAssessment;
 
-    @Column(name = "`comment`")
+    @Column(name = "`comment`", columnDefinition = "TEXT")
     private String comment;
 
     public Statistic(Lecturer lecturer,

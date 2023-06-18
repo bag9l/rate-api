@@ -3,6 +3,7 @@ package com.rate.api.controller;
 import com.rate.api.dto.NewComment;
 import com.rate.api.model.EducationalMethodType;
 import com.rate.api.service.EducationalMethodService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class EducationalMethodController {
     @PreAuthorize("hasAuthority('STUDENT')")
     public ResponseEntity<Void> addCommentToEducationalMethod(@AuthenticationPrincipal UserDetails student,
                                                               @PathVariable("id") String id,
-                                                              @RequestBody NewComment comment) {
+                                                              @Valid @RequestBody NewComment comment) {
         educationalMethodService.addCommentToEducationalMethod(id, comment, student.getUsername());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
