@@ -51,22 +51,19 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            System.out.println("********************************************");
-            System.out.println("1" + username + "1");
-            System.out.println("********************************************");
-
             User user = findUserByLogin(username);
-
+            System.out.println("USER:");
+            System.out.println(user);
             return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), user.getAuthorities());
         };
     }
 
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return (request, response, authentication) -> {
-            response.sendRedirect("loginSuccess");
-        };
-    }
+//    @Bean
+//    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+//        return (request, response, authentication) -> {
+//            response.sendRedirect("loginSuccess");
+//        };
+//    }
 
     private User findUserByLogin(String login) {
         Optional<Student> student = studentRepository.findStudentByLogin(login);

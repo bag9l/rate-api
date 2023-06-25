@@ -23,7 +23,6 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    //    @Qualifier("userDetailsService")
     private final UserDetailsService userDetailsService;
 
     private final TokenRepository tokenRepository;
@@ -65,6 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                System.out.println("IS TOKEN VALID:" + isTokenValid);
             }
         }
         filterChain.doFilter(request, response);
