@@ -27,7 +27,7 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/image/{id}")
+    @GetMapping("/{id}/image")
     public ResponseEntity<?> getStudentImage(@PathVariable("id") String userId){
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(MediaType.IMAGE_PNG_VALUE))
