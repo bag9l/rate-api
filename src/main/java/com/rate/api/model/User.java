@@ -3,7 +3,10 @@ package com.rate.api.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rate.api.token.Token;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,6 +44,10 @@ public abstract class User implements UserDetails {
     @Column(name = "`role`")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "avatar_id", referencedColumnName = "id", nullable = true)
+    private Avatar avatar;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference

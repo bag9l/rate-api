@@ -107,6 +107,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new AuthenticationResponse(jwt);
     }
 
+    @Transactional
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
