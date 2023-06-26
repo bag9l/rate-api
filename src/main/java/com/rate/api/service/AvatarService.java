@@ -1,0 +1,10 @@
+package com.rate.api.service;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+
+public interface AvatarService {
+    void uploadAvatar(MultipartFile file, String userId) throws IOException;
+    byte[] downloadImage(String id);
+}
