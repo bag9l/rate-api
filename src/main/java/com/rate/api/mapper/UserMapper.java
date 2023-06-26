@@ -22,7 +22,7 @@ public abstract class UserMapper {
     protected ImageService imageService;
 
     @Mapping(target = "role", source = "role.value")
-    @Mapping(target = "imageBytes", expression = "java(imageService.decompressImage(user.getAvatar().getImageData()))")
+    @Mapping(target = "avatar", expression = "java(imageService.decompressImage(user.getAvatar().getImageData()))")
     public abstract AuthenticatedUser userToAuthenticatedUser(User user);
 
     @Mapping(target = "degree", source = "degree.value")
@@ -36,6 +36,7 @@ public abstract class UserMapper {
                     ".collect(java.util.stream.Collectors.toList()))")
     public abstract LecturerProfile lecturerToLecturerProfile(Lecturer lecturer);
 
+    @Mapping(target = "avatar", expression = "java(imageService.decompressImage(user.getAvatar().getImageData()))")
     public abstract UserView userToUserView(User user);
 
     @Autowired

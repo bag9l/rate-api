@@ -2,7 +2,7 @@ package com.rate.api.dto;
 
 public record UserView(
         String id,
-        String avatar,
+        byte[] avatar,
         String fullName
 ){
 }

@@ -5,6 +5,6 @@ public record AuthenticatedUser(
         String fullName,
         String email,
         String role,
-        byte[] imageBytes
+        byte[] avatar
 ) {
 }
