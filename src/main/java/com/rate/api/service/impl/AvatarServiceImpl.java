@@ -39,10 +39,10 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     @Override
-    public byte[] downloadImage(String id) {
-        Avatar avatar = avatarRepository.findById(id).orElseThrow(() ->
-                new EntityNotExistsException("Avatar not found"));
-        return imageService.decompressImage(avatar.getImageData());
+    public byte[] getUserAvatar(String userId) {
+        User user = findUserById(userId);
+
+        return imageService.decompressImage(user.getAvatar().getImageData());
     }
 
 

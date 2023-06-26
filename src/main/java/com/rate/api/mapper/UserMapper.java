@@ -6,6 +6,7 @@ import com.rate.api.dto.UserView;
 import com.rate.api.dto.auth.AuthenticatedUser;
 import com.rate.api.model.Lecturer;
 import com.rate.api.model.User;
+import com.rate.api.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,12 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 @RequiredArgsConstructor
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = StatisticMapper.class)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {StatisticMapper.class, ImageService.class})
 public abstract class UserMapper {
 
     protected StatisticMapper statisticMapper;
+    protected ImageService imageService;
 
     @Mapping(target = "role", source = "role.value")
+    @Mapping(target = "imageBytes", expression = "java(imageService.decompressImage(user.getAvatar().getImageData()))")
     public abstract AuthenticatedUser userToAuthenticatedUser(User user);
 
     @Mapping(target = "degree", source = "degree.value")
@@ -38,6 +41,11 @@ public abstract class UserMapper {
     @Autowired
     public void setStatisticMapper(@Lazy StatisticMapper statisticMapper) {
         this.statisticMapper = statisticMapper;
+    }
+
+    @Autowired
+    public void setImageService(ImageService imageService){
+        this.imageService = imageService;
     }
 
 }
