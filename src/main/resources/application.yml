@@ -1,4 +1,8 @@
 spring:
+  datasource:
+    username: postgres
+    password: BapQTXc3WMZXG0CKjpst
+    url: jdbc:postgresql://containers-us-west-29.railway.app:6508/railway
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -9,5 +13,3 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         globally_quoted_identifiers: true
-  profiles:
-    active: dev

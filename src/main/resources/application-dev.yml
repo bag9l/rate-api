@@ -1,9 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/ratedb
-    username: rate_owner
-    password: rate_owner
-
-  sql:
-    init:
-      mode: always
