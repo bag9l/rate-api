@@ -20,22 +20,23 @@ public class StudentController {
     private final AvatarService avatarService;
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> setAvatar(@RequestBody UpdateUserData updateUserData,
+    @PutMapping(value = "/{id}",
+            consumes = {"multipart/form-data"})
+    public ResponseEntity<?> setAvatar(@ModelAttribute UpdateUserData updateUserData,
                                        @PathVariable("id") String userId) throws IOException {
         avatarService.uploadAvatar(updateUserData.image(), userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}/image")
-    public ResponseEntity<?> getStudentImage(@PathVariable("id") String userId){
+    public ResponseEntity<?> getStudentImage(@PathVariable("id") String userId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(MediaType.IMAGE_PNG_VALUE))
                 .body(avatarService.getUserAvatar(userId));
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<?> downloadImage(@PathVariable("id") String id){
+    private ResponseEntity<?> downloadImage(@PathVariable("id") String id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(MediaType.IMAGE_PNG_VALUE))
                 .body(avatarService.getUserAvatar(id));

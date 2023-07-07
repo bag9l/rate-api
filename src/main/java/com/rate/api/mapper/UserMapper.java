@@ -22,8 +22,8 @@ public abstract class UserMapper {
     protected ImageService imageService;
 
     @Mapping(target = "role", source = "role.value")
-    @Mapping(target = "avatar", expression = "java((user.getAvatar()!=null) ? " +
-            "imageService.decompressImage(user.getAvatar().getImageData()):null)")
+    @Mapping(target = "avatar", expression = "java((user.getAvatar() != null) ? " +
+            "imageService.decompressImage(user.getAvatar().getImageData()) : null)")
     public abstract AuthenticatedUser userToAuthenticatedUser(User user);
 
     @Mapping(target = "degree", source = "degree.value")
@@ -31,8 +31,8 @@ public abstract class UserMapper {
 
     @Mapping(target = "degree", source = "degree.value")
     @Mapping(target = "department", source = "department.name")
-    @Mapping(target = "avatar", expression = "java((lecturer.getAvatar()!=null) ? " +
-            "imageService.decompressImage(lecturer.getAvatar().getImageData()):null)")
+    @Mapping(target = "avatar", expression = "java((lecturer.getAvatar() != null) ? " +
+            "imageService.decompressImage(lecturer.getAvatar().getImageData()) : null)")
     @Mapping(target = "statistics",
             expression = "java(lecturer.getStatistics().stream()" +
                     ".map(statistic -> statisticMapper.statisticToDto(statistic))" +
