@@ -31,6 +31,8 @@ public abstract class UserMapper {
 
     @Mapping(target = "degree", source = "degree.value")
     @Mapping(target = "department", source = "department.name")
+    @Mapping(target = "avatar", expression = "java((lecturer.getAvatar()!=null) ? " +
+            "imageService.decompressImage(lecturer.getAvatar().getImageData()):null)")
     @Mapping(target = "statistics",
             expression = "java(lecturer.getStatistics().stream()" +
                     ".map(statistic -> statisticMapper.statisticToDto(statistic))" +
