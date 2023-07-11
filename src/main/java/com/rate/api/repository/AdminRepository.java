@@ -1,6 +1,6 @@
 package com.rate.api.repository;
 
-import com.rate.api.model.Admin;
+import com.rate.api.model.user.Admin;
 import com.rate.api.model.Department;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

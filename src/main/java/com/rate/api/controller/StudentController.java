@@ -1,6 +1,6 @@
 package com.rate.api.controller;
 
-import com.rate.api.dto.UpdateUserData;
+import com.rate.api.dto.UpdateStudentData;
 import com.rate.api.service.AvatarService;
 import com.rate.api.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -17,28 +17,19 @@ import java.io.IOException;
 public class StudentController {
 
     private final StudentService studentService;
-    private final AvatarService avatarService;
-
 
     @PutMapping(value = "/{id}",
             consumes = {"multipart/form-data"})
-    public ResponseEntity<?> setAvatar(@ModelAttribute UpdateUserData updateUserData,
+    public ResponseEntity<Void> setAvatar(@ModelAttribute UpdateStudentData updateStudentData,
                                        @PathVariable("id") String userId) throws IOException {
-        avatarService.uploadAvatar(updateUserData.image(), userId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        studentService.updateStudent(updateStudentData, userId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/{id}/image")
-    public ResponseEntity<?> getStudentImage(@PathVariable("id") String userId) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf(MediaType.IMAGE_PNG_VALUE))
-                .body(avatarService.getUserAvatar(userId));
-    }
-
-    @GetMapping("/{id}")
-    private ResponseEntity<?> downloadImage(@PathVariable("id") String id) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf(MediaType.IMAGE_PNG_VALUE))
-                .body(avatarService.getUserAvatar(id));
-    }
+//    @GetMapping("/{id}/image")
+//    public ResponseEntity<?> getStudentImage(@PathVariable("id") String userId) {
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .contentType(MediaType.valueOf(MediaType.IMAGE_PNG_VALUE))
+//                .body(avatarService.getUserAvatar(userId));
+//    }
 }

@@ -1,6 +1,7 @@
 package com.rate.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.rate.api.model.user.Student;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;

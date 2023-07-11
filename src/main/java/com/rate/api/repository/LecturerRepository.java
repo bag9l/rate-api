@@ -1,7 +1,7 @@
 package com.rate.api.repository;
 
 import com.rate.api.model.Department;
-import com.rate.api.model.Lecturer;
+import com.rate.api.model.user.Lecturer;
 import com.rate.api.model.Subject;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

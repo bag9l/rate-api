@@ -1,5 +1,7 @@
 package com.rate.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.rate.api.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,6 +31,7 @@ public class Avatar {
     private byte[] imageData;
 
     @OneToOne(mappedBy = "avatar")
+    @JsonBackReference
     private User user;
 
     public Avatar(String name, String type, byte[] imageData, User user) {

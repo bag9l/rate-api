@@ -2,11 +2,12 @@ package com.rate.api.mapper;
 
 import com.rate.api.dto.LecturerDto;
 import com.rate.api.dto.LecturerProfile;
+import com.rate.api.dto.StudentProfile;
 import com.rate.api.dto.UserView;
 import com.rate.api.dto.auth.AuthenticatedUser;
-import com.rate.api.model.Lecturer;
-import com.rate.api.model.User;
-import com.rate.api.service.ImageService;
+import com.rate.api.model.user.Lecturer;
+import com.rate.api.model.user.Student;
+import com.rate.api.model.user.User;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,15 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 @RequiredArgsConstructor
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {StatisticMapper.class, ImageService.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {StatisticMapper.class})
 public abstract class UserMapper {
 
     protected StatisticMapper statisticMapper;
-    protected ImageService imageService;
 
     @Mapping(target = "role", source = "role.value")
     @Mapping(target = "avatar", expression = "java((user.getAvatar() != null) ? " +
-            "imageService.decompressImage(user.getAvatar().getImageData()) : null)")
+            "com.rate.api.util.ImageUtil.decompressImage(user.getAvatar().getImageData()) : null)")
     public abstract AuthenticatedUser userToAuthenticatedUser(User user);
 
     @Mapping(target = "degree", source = "degree.value")
@@ -31,26 +31,29 @@ public abstract class UserMapper {
 
     @Mapping(target = "degree", source = "degree.value")
     @Mapping(target = "department", source = "department.name")
+    @Mapping(target = "faculty", source = "department.faculty.name")
     @Mapping(target = "avatar", expression = "java((lecturer.getAvatar() != null) ? " +
-            "imageService.decompressImage(lecturer.getAvatar().getImageData()) : null)")
+            "com.rate.api.util.ImageUtil.decompressImage(lecturer.getAvatar().getImageData()) : null)")
     @Mapping(target = "statistics",
             expression = "java(lecturer.getStatistics().stream()" +
                     ".map(statistic -> statisticMapper.statisticToDto(statistic))" +
                     ".collect(java.util.stream.Collectors.toList()))")
     public abstract LecturerProfile lecturerToLecturerProfile(Lecturer lecturer);
 
+    @Mapping(target = "degree", source = "group.stream.course.degree.value")
+    @Mapping(target = "group", source = "group.name")
+    @Mapping(target = "faculty", source = "group.stream.course.faculty.name")
+    @Mapping(target = "avatar", expression = "java((student.getAvatar() != null) ? " +
+            "com.rate.api.util.ImageUtil.decompressImage(student.getAvatar().getImageData()) : null)")
+    public abstract StudentProfile studentToStudentProfile(Student student);
+
     @Mapping(target = "avatar", expression = "java((user.getAvatar()!=null) " +
-            "? imageService.decompressImage(user.getAvatar().getImageData()):null)")
+            "? com.rate.api.util.ImageUtil.decompressImage(user.getAvatar().getImageData()):null)")
     public abstract UserView userToUserView(User user);
 
     @Autowired
     public void setStatisticMapper(@Lazy StatisticMapper statisticMapper) {
         this.statisticMapper = statisticMapper;
-    }
-
-    @Autowired
-    public void setImageService(ImageService imageService) {
-        this.imageService = imageService;
     }
 
 }

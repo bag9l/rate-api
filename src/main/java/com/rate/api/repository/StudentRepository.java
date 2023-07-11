@@ -1,6 +1,6 @@
 package com.rate.api.repository;
 
-import com.rate.api.model.Student;
+import com.rate.api.model.user.Student;
 import com.rate.api.model.Subject;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,14 +1,11 @@
 package com.rate.api.service.impl;
 
-import com.rate.api.exception.EntityNotExistsException;
 import com.rate.api.model.Avatar;
-import com.rate.api.model.User;
-import com.rate.api.repository.AdminRepository;
+import com.rate.api.model.user.User;
 import com.rate.api.repository.AvatarRepository;
-import com.rate.api.repository.LecturerRepository;
-import com.rate.api.repository.StudentRepository;
 import com.rate.api.service.AvatarService;
-import com.rate.api.service.ImageService;
+import com.rate.api.service.UserService;
+import com.rate.api.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,19 +17,17 @@ import java.io.IOException;
 public class AvatarServiceImpl implements AvatarService {
 
     private final AvatarRepository avatarRepository;
-    private final StudentRepository studentRepository;
-    private final LecturerRepository lecturerRepository;
-    private final AdminRepository adminRepository;
-    private final ImageService imageService;
+    private final UserService userService;
+
 
     @Override
     public void uploadAvatar(MultipartFile file, String userId) throws IOException {
 
-        User user = findUserById(userId);
+        User user = userService.findUserById(userId);
 
         Avatar avatar = new Avatar(file.getOriginalFilename(),
                 file.getContentType(),
-                imageService.compressImage(file.getBytes()),
+                ImageUtil.compressImage(file.getBytes()),
                 user);
 
         avatarRepository.save(avatar);
@@ -40,16 +35,8 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public byte[] getUserAvatar(String userId) {
-        User user = findUserById(userId);
+        User user = userService.findUserById(userId);
 
-        return imageService.decompressImage(user.getAvatar().getImageData());
-    }
-
-
-    private User findUserById(String id) {
-        return studentRepository.findById(id).orElseGet(() ->
-                lecturerRepository.findById(id).orElseGet(() ->
-                        adminRepository.findById(id).orElseThrow(() ->
-                                new EntityNotExistsException("User not found"))));
+        return ImageUtil.decompressImage(user.getAvatar().getImageData());
     }
 }

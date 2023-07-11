@@ -1,13 +1,7 @@
 package com.rate.api.config;
 
-import com.rate.api.exception.EntityNotExistsException;
-import com.rate.api.model.Admin;
-import com.rate.api.model.Lecturer;
-import com.rate.api.model.Student;
-import com.rate.api.model.User;
-import com.rate.api.repository.AdminRepository;
-import com.rate.api.repository.LecturerRepository;
-import com.rate.api.repository.StudentRepository;
+import com.rate.api.model.user.User;
+import com.rate.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,17 +12,12 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Configuration
 public class ApplicationConfig {
 
-    private final LecturerRepository lecturerRepository;
-    private final StudentRepository studentRepository;
-    private final AdminRepository adminRepository;
+    private final UserService userService;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -51,31 +40,10 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            User user = findUserByLogin(username);
+            User user = userService.findUserByLogin(username);
             System.out.println("USER:");
             System.out.println(user);
             return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), user.getAuthorities());
         };
-    }
-
-//    @Bean
-//    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-//        return (request, response, authentication) -> {
-//            response.sendRedirect("loginSuccess");
-//        };
-//    }
-
-    private User findUserByLogin(String login) {
-        Optional<Student> student = studentRepository.findStudentByLogin(login);
-        Optional<Lecturer> lecturer = lecturerRepository.findLecturerByLogin(login);
-        Optional<Admin> admin = adminRepository.findAdminByLogin(login);
-
-        if (student.isPresent()) {
-            return student.get();
-        } else if (lecturer.isPresent()) {
-            return lecturer.get();
-        } else if (admin.isPresent()) {
-            return admin.get();
-        } else throw new EntityNotExistsException("User with username: " + login + " not found");
     }
 }

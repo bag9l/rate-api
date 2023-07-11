@@ -1,18 +1,19 @@
 package com.rate.api.dto;
 
+import com.rate.api.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LecturerProfile extends UserProfile {
-    private String degree;
-    private String department;
-    private List<StatisticDto> statistics;
+public class UserProfile {
+    private String fullName;
+    private String email;
+    private Role role;
+    private byte[] avatar;
+    private String faculty;
 }

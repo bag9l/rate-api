@@ -2,9 +2,9 @@ package com.rate.api.service.impl;
 
 import com.rate.api.dto.NewStatistic;
 import com.rate.api.exception.EntityNotExistsException;
-import com.rate.api.model.Lecturer;
+import com.rate.api.model.user.Lecturer;
 import com.rate.api.model.Statistic;
-import com.rate.api.model.Student;
+import com.rate.api.model.user.Student;
 import com.rate.api.repository.LecturerRepository;
 import com.rate.api.repository.StatisticRepository;
 import com.rate.api.repository.StudentRepository;

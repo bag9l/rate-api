@@ -2,7 +2,7 @@ package com.rate.api.token;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.rate.api.model.User;
+import com.rate.api.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

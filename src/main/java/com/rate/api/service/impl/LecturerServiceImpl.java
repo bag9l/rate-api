@@ -2,18 +2,22 @@ package com.rate.api.service.impl;
 
 import com.rate.api.dto.LecturerProfile;
 import com.rate.api.dto.SubjectDto;
+import com.rate.api.dto.UpdateLecturerData;
 import com.rate.api.exception.EntityNotExistsException;
 import com.rate.api.mapper.SubjectMapper;
 import com.rate.api.mapper.UserMapper;
-import com.rate.api.model.Lecturer;
-import com.rate.api.model.Student;
+import com.rate.api.model.Avatar;
+import com.rate.api.model.user.Lecturer;
+import com.rate.api.model.user.Student;
 import com.rate.api.repository.LecturerRepository;
 import com.rate.api.repository.StudentRepository;
 import com.rate.api.service.LecturerService;
+import com.rate.api.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +40,7 @@ public class LecturerServiceImpl implements LecturerService {
     }
 
     @Override
-    public LecturerProfile getLecturerById(String id) {
+    public LecturerProfile getLecturerProfileById(String id) {
         Lecturer lecturer = lecturerRepository.findLecturerById(id).orElseThrow(() ->
                 new EntityNotExistsException("Lecturer with id:" + id + " not found"));
         System.out.println(lecturer);
@@ -44,7 +48,7 @@ public class LecturerServiceImpl implements LecturerService {
     }
 
     @Override
-    public List<Lecturer> getLectors(String login) {
+    public List<Lecturer> getLecturersOfAuthenticatedUserFacultyByLogin(String login) {
         Student student = studentRepository.findStudentByLogin(login).orElse(null);
 
         Lecturer lecturer = lecturerRepository.findLecturerByLogin(login).orElse(null);
@@ -54,7 +58,24 @@ public class LecturerServiceImpl implements LecturerService {
         } else if (lecturer != null) {
             return lecturerRepository.findLectorsByFacultyId(lecturer.getDepartment().getFaculty().getId());
         } else {
-           throw new EntityNotExistsException("User with login:" + login + " not found");
+            throw new EntityNotExistsException("User with login:" + login + " not found");
         }
+    }
+
+    @Override
+    public void updateLecturer(UpdateLecturerData updateLecturerData, String lecturerId) throws IOException {
+        Lecturer lecturer = lecturerRepository.findLecturerById(lecturerId).orElseThrow(() ->
+                new EntityNotExistsException("Lecturer with id:" + lecturerId + " not found"));
+
+        MultipartFile file = updateLecturerData.image();
+
+        Avatar avatar = new Avatar(file.getOriginalFilename(),
+                file.getContentType(),
+                ImageUtil.compressImage(file.getBytes()),
+                lecturer);
+
+        lecturer.setAvatar(avatar);
+
+        lecturerRepository.save(lecturer);
     }
 }

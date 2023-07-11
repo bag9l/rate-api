@@ -1,6 +1,9 @@
-package com.rate.api.model;
+package com.rate.api.model.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.rate.api.model.Group;
+import com.rate.api.model.Role;
+import com.rate.api.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

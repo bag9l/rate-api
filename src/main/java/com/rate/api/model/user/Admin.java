@@ -1,6 +1,7 @@
-package com.rate.api.model;
+package com.rate.api.model.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.rate.api.model.Faculty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;

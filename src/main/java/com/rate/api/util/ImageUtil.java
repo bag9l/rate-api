@@ -1,18 +1,12 @@
-package com.rate.api.service.impl;
-
-import com.rate.api.service.ImageService;
-import org.springframework.stereotype.Service;
+package com.rate.api.util;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-@Service
-public class ImageServiceImpl implements ImageService {
+public class ImageUtil {
 
-
-    @Override
-    public byte[] compressImage(byte[] data) {
+    public static byte[] compressImage(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setLevel(Deflater.BEST_COMPRESSION);
         deflater.setInput(data);
@@ -31,8 +25,7 @@ public class ImageServiceImpl implements ImageService {
         return outputStream.toByteArray();
     }
 
-    @Override
-    public byte[] decompressImage(byte[] data) {
+    public static byte[] decompressImage(byte[] data) {
         Inflater inflater = new Inflater();
         inflater.setInput(data);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);

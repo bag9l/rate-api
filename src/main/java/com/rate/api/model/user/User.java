@@ -1,6 +1,8 @@
-package com.rate.api.model;
+package com.rate.api.model.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.rate.api.model.Avatar;
+import com.rate.api.model.Role;
 import com.rate.api.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -47,6 +49,7 @@ public abstract class User implements UserDetails {
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "avatar_id", referencedColumnName = "id", nullable = true)
+    @JsonManagedReference
     private Avatar avatar;
 
     @OneToMany(mappedBy = "user")

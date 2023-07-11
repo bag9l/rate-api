@@ -3,7 +3,6 @@ package com.rate.api.service;
 import com.rate.api.dto.NewComment;
 import com.rate.api.dto.NewEducationalMethod;
 import com.rate.api.model.EducationalMethodType;
-import com.rate.api.model.Student;
 
 import java.util.List;
 

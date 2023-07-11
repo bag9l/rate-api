@@ -6,6 +6,8 @@ import com.rate.api.dto.SubjectDto;
 import com.rate.api.exception.EntityNotExistsException;
 import com.rate.api.mapper.SubjectMapper;
 import com.rate.api.model.*;
+import com.rate.api.model.user.Lecturer;
+import com.rate.api.model.user.Student;
 import com.rate.api.repository.*;
 import com.rate.api.service.EducationalMethodService;
 import com.rate.api.service.SubjectService;

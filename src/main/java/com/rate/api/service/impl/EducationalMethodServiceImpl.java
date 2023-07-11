@@ -4,6 +4,7 @@ import com.rate.api.dto.NewComment;
 import com.rate.api.dto.NewEducationalMethod;
 import com.rate.api.exception.EntityNotExistsException;
 import com.rate.api.model.*;
+import com.rate.api.model.user.Student;
 import com.rate.api.repository.EducationalMethodRepository;
 import com.rate.api.repository.StudentRepository;
 import com.rate.api.repository.SubjectRepository;
@@ -12,7 +13,6 @@ import com.rate.api.service.EducationalMethodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
