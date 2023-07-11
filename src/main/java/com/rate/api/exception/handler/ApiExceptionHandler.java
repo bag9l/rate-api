@@ -1,6 +1,7 @@
 package com.rate.api.exception.handler;
 
 import com.rate.api.exception.EntityNotExistsException;
+import com.rate.api.exception.PermissionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,6 +34,14 @@ public class ApiExceptionHandler {
     protected ResponseEntity<Object> handleEntityNotExists(
             EntityNotExistsException exception) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
+        apiError.setMessage(exception.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(PermissionException.class)
+    protected ResponseEntity<Object> handlePermissionException(
+            PermissionException exception) {
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
         apiError.setMessage(exception.getMessage());
         return buildResponseEntity(apiError);
     }

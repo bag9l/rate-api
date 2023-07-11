@@ -1,15 +1,9 @@
 package com.rate.api.controller;
 
-import com.rate.api.dto.UpdateStudentData;
-import com.rate.api.service.AvatarService;
 import com.rate.api.service.StudentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RequestMapping("student")
@@ -18,13 +12,6 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PutMapping(value = "/{id}",
-            consumes = {"multipart/form-data"})
-    public ResponseEntity<Void> setAvatar(@ModelAttribute UpdateStudentData updateStudentData,
-                                       @PathVariable("id") String userId) throws IOException {
-        studentService.updateStudent(updateStudentData, userId);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
 
 //    @GetMapping("/{id}/image")
 //    public ResponseEntity<?> getStudentImage(@PathVariable("id") String userId) {

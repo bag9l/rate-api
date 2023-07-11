@@ -2,7 +2,7 @@ package com.rate.api.service.impl;
 
 import com.rate.api.dto.LecturerProfile;
 import com.rate.api.dto.SubjectDto;
-import com.rate.api.dto.UpdateLecturerData;
+import com.rate.api.dto.UserUpdateData;
 import com.rate.api.exception.EntityNotExistsException;
 import com.rate.api.mapper.SubjectMapper;
 import com.rate.api.mapper.UserMapper;
@@ -60,22 +60,5 @@ public class LecturerServiceImpl implements LecturerService {
         } else {
             throw new EntityNotExistsException("User with login:" + login + " not found");
         }
-    }
-
-    @Override
-    public void updateLecturer(UpdateLecturerData updateLecturerData, String lecturerId) throws IOException {
-        Lecturer lecturer = lecturerRepository.findLecturerById(lecturerId).orElseThrow(() ->
-                new EntityNotExistsException("Lecturer with id:" + lecturerId + " not found"));
-
-        MultipartFile file = updateLecturerData.image();
-
-        Avatar avatar = new Avatar(file.getOriginalFilename(),
-                file.getContentType(),
-                ImageUtil.compressImage(file.getBytes()),
-                lecturer);
-
-        lecturer.setAvatar(avatar);
-
-        lecturerRepository.save(lecturer);
     }
 }
