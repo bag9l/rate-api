@@ -1,7 +1,7 @@
 package com.rate.api.controller;
 
-import com.rate.api.dto.UserUpdateData;
 import com.rate.api.dto.UserProfile;
+import com.rate.api.dto.UserUpdateData;
 import com.rate.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

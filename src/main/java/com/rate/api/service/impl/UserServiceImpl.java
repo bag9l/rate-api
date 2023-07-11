@@ -1,7 +1,7 @@
 package com.rate.api.service.impl;
 
-import com.rate.api.dto.UserUpdateData;
 import com.rate.api.dto.UserProfile;
+import com.rate.api.dto.UserUpdateData;
 import com.rate.api.exception.EntityNotExistsException;
 import com.rate.api.exception.PermissionException;
 import com.rate.api.mapper.UserMapper;
@@ -57,11 +57,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(UserUpdateData userUpdateData, String userId, String authenticatedUserLogin) throws IOException {
-        User user = studentRepository.findById(userId).orElseGet(()->
-                lecturerRepository.findById(userId).orElseThrow(()->
+        User user = studentRepository.findById(userId).orElseGet(() ->
+                lecturerRepository.findById(userId).orElseThrow(() ->
                         new EntityNotExistsException("User with id:" + userId + " not found")));
 
-        if(!user.getLogin().equals(authenticatedUserLogin)){
+        if (!user.getLogin().equals(authenticatedUserLogin)) {
             throw new PermissionException("You cannot change the data of other users");
         }
 
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
         user.setAvatar(avatar);
 
-        switch (user.getRole()){
+        switch (user.getRole()) {
             case STUDENT -> studentRepository.save(user);
             case LECTURER -> lecturerRepository.save(user);
         }

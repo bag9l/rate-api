@@ -7,4 +7,5 @@ import java.util.List;
 public record LecturerRegisterData(
         List<String> degrees,
         List<DepartmentDto> departments
-) { }
+) {
+}

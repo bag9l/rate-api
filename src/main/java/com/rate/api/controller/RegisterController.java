@@ -24,28 +24,28 @@ public class RegisterController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("student")
-    public ResponseEntity<AuthenticationResponse> registerStudent(@Valid @RequestBody StudentRegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> registerStudent(@Valid @RequestBody StudentRegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 authenticationService.registerStudent(request)
         );
     }
 
     @PostMapping("lecturer")
-    public ResponseEntity<AuthenticationResponse> registerLecturer(@Valid @RequestBody LecturerRegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> registerLecturer(@Valid @RequestBody LecturerRegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 authenticationService.registerLecturer(request)
         );
     }
 
     @GetMapping("student")
-    public ResponseEntity<StudentRegisterData> getRegisterDataForStudent(@AuthenticationPrincipal UserDetails admin){
+    public ResponseEntity<StudentRegisterData> getRegisterDataForStudent(@AuthenticationPrincipal UserDetails admin) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 authenticationService.getStudentRegisterData(admin.getUsername())
         );
     }
 
     @GetMapping("lecturer")
-    public ResponseEntity<LecturerRegisterData> getRegisterDataForLecturer(@AuthenticationPrincipal UserDetails admin){
+    public ResponseEntity<LecturerRegisterData> getRegisterDataForLecturer(@AuthenticationPrincipal UserDetails admin) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 authenticationService.getLecturerRegisterData(admin.getUsername())
         );

@@ -3,7 +3,6 @@ package com.rate.api.model.user;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rate.api.model.*;
-import com.rate.api.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

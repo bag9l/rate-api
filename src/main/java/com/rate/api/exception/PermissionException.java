@@ -1,6 +1,6 @@
 package com.rate.api.exception;
 
-public class PermissionException extends RuntimeException{
+public class PermissionException extends RuntimeException {
     private static final String PERMISSION_DENIED = "Permission denied.";
 
     public PermissionException(String message) {

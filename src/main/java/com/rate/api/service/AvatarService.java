@@ -6,5 +6,6 @@ import java.io.IOException;
 
 public interface AvatarService {
     void uploadAvatar(MultipartFile file, String userId) throws IOException;
+
     byte[] getUserAvatar(String userId);
 }

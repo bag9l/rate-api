@@ -4,5 +4,5 @@ public record UserView(
         String id,
         byte[] avatar,
         String fullName
-){
+) {
 }

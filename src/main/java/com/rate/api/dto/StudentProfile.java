@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentProfile extends UserProfile{
+public class StudentProfile extends UserProfile {
     private String group;
     private String degree;
 }

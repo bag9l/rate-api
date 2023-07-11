@@ -10,9 +10,14 @@ import com.rate.api.dto.auth.register.StudentRegisterRequest;
 
 public interface AuthenticationService {
     AuthenticationResponse registerStudent(StudentRegisterRequest request);
+
     AuthenticationResponse registerLecturer(LecturerRegisterRequest request);
+
     AuthenticationResponse authenticate(AuthenticationRequest request);
+
     AuthenticatedUser getAuthenticatedUser(String login);
+
     StudentRegisterData getStudentRegisterData(String adminLogin);
+
     LecturerRegisterData getLecturerRegisterData(String adminLogin);
 }

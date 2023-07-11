@@ -1,6 +1,7 @@
 package com.rate.api.dto;
 
-public record SubjectDto (
+public record SubjectDto(
         String id,
         String name
-){ }
+) {
+}

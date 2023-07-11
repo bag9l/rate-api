@@ -15,16 +15,16 @@ public interface FacultyRepository extends JpaRepository<Faculty, String> {
             "JOIN s.groups g " +
             "JOIN g.students student " +
             "WHERE student.login =:studentLogin")
-    Optional<Faculty> findFacultyForStudentByLogin(@Param("studentLogin")String studentLogin);
+    Optional<Faculty> findFacultyForStudentByLogin(@Param("studentLogin") String studentLogin);
 
     @Query("SELECT f FROM Faculty f " +
             "JOIN f.departments d " +
             "JOIN d.lecturers l " +
             "WHERE l.login =:lecturerLogin")
-    Optional<Faculty> findFacultyForLecturerByLogin(@Param("lecturerLogin")String lecturerLogin);
+    Optional<Faculty> findFacultyForLecturerByLogin(@Param("lecturerLogin") String lecturerLogin);
 
     @Query("SELECT f FROM Faculty f " +
             "JOIN f.admin a " +
             "WHERE a.login =:adminLogin")
-    Optional<Faculty> findFacultyForAdminByLogin(@Param("adminLogin")String adminLogin);
+    Optional<Faculty> findFacultyForAdminByLogin(@Param("adminLogin") String adminLogin);
 }

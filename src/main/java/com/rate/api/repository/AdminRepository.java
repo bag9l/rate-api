@@ -1,7 +1,7 @@
 package com.rate.api.repository;
 
-import com.rate.api.model.user.Admin;
 import com.rate.api.model.Department;
+import com.rate.api.model.user.Admin;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AdminRepository extends UserRepository{
+public interface AdminRepository extends UserRepository {
     Optional<Admin> findAdminByLogin(String login);
 
     @Query("SELECT d FROM Faculty f " +

@@ -2,10 +2,8 @@ package com.rate.api.service;
 
 import com.rate.api.dto.LecturerProfile;
 import com.rate.api.dto.SubjectDto;
-import com.rate.api.dto.UserUpdateData;
 import com.rate.api.model.user.Lecturer;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface LecturerService {

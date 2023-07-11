@@ -1,7 +1,7 @@
 package com.rate.api.dto.auth;
 
-public record AuthenticationRequest (
+public record AuthenticationRequest(
         String login,
         String password
-){
+) {
 }
