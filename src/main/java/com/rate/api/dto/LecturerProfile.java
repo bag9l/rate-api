@@ -14,5 +14,5 @@ import java.util.List;
 public class LecturerProfile extends UserProfile {
     private String degree;
     private String department;
-    private List<StatisticDto> statistics;
+    private List<FeedbackDto> feedbacks;
 }

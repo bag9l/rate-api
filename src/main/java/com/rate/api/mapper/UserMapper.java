@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 @RequiredArgsConstructor
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {StatisticMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {FeedbackMapper.class})
 public abstract class UserMapper {
 
-    protected StatisticMapper statisticMapper;
+    protected FeedbackMapper feedbackMapper;
 
     @Mapping(target = "role", source = "role.value")
     @Mapping(target = "avatar", expression = "java((user.getAvatar() != null) ? " +
@@ -34,9 +34,9 @@ public abstract class UserMapper {
     @Mapping(target = "faculty", source = "department.faculty.name")
     @Mapping(target = "avatar", expression = "java((lecturer.getAvatar() != null) ? " +
             "com.rate.api.util.ImageUtil.decompressImage(lecturer.getAvatar().getImageData()) : null)")
-    @Mapping(target = "statistics",
-            expression = "java(lecturer.getStatistics().stream()" +
-                    ".map(statistic -> statisticMapper.statisticToDto(statistic))" +
+    @Mapping(target = "feedbacks",
+            expression = "java(lecturer.getFeedbacks().stream()" +
+                    ".map(feedback -> feedbackMapper.feedbackToDto(feedback))" +
                     ".collect(java.util.stream.Collectors.toList()))")
     public abstract LecturerProfile lecturerToLecturerProfile(Lecturer lecturer);
 
@@ -52,8 +52,8 @@ public abstract class UserMapper {
     public abstract UserView userToUserView(User user);
 
     @Autowired
-    public void setStatisticMapper(@Lazy StatisticMapper statisticMapper) {
-        this.statisticMapper = statisticMapper;
+    public void setFeedbackMapper(@Lazy FeedbackMapper feedbackMapper) {
+        this.feedbackMapper = feedbackMapper;
     }
 
 }

@@ -7,14 +7,16 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString()
-@Table(name = "`statistic`")
+@Table(name = "`feedback`")
 @Entity
-public class Statistic {
+public class Feedback {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -29,6 +31,7 @@ public class Statistic {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "owner_id", nullable = false)
+    @ToString.Exclude
     private Student owner;
 
     @Column(name = "quality_of_teaching")
@@ -43,17 +46,22 @@ public class Statistic {
     @Column(name = "`comment`", columnDefinition = "text")
     private String comment;
 
-    public Statistic(Lecturer lecturer,
-                     Student owner,
-                     Double qualityOfTeaching,
-                     Double methodologicalSupport,
-                     Double objectivityOfAssessment,
-                     String comment) {
+    @Column(name = "`date`", nullable = false)
+    private LocalDate date;
+
+    public Feedback(Lecturer lecturer,
+                    Student owner,
+                    Double qualityOfTeaching,
+                    Double methodologicalSupport,
+                    Double objectivityOfAssessment,
+                    String comment,
+                    LocalDate date) {
         this.lecturer = lecturer;
         this.owner = owner;
         this.qualityOfTeaching = qualityOfTeaching;
         this.methodologicalSupport = methodologicalSupport;
         this.objectivityOfAssessment = objectivityOfAssessment;
         this.comment = comment;
+        this.date = date;
     }
 }

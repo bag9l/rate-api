@@ -1,7 +1,7 @@
 package com.rate.api.mapper;
 
-import com.rate.api.dto.StatisticDto;
-import com.rate.api.model.Statistic;
+import com.rate.api.dto.FeedbackDto;
+import com.rate.api.model.Feedback;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RequiredArgsConstructor
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = UserMapper.class)
-public abstract class StatisticMapper {
+public abstract class FeedbackMapper {
 
     protected UserMapper userMapper;
 
     @Mapping(target = "owner",
-            expression = "java(userMapper.userToUserView(statistic.getOwner()))")
-    public abstract StatisticDto statisticToDto(Statistic statistic);
+            expression = "java(userMapper.userToUserView(feedback.getOwner()))")
+    public abstract FeedbackDto feedbackToDto(Feedback feedback);
 
 
     @Autowired

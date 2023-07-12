@@ -1,11 +1,14 @@
 package com.rate.api.dto;
 
-public record StatisticDto(
+import java.time.LocalDate;
+
+public record FeedbackDto(
         String id,
         UserView owner,
         Double qualityOfTeaching,
         Double methodologicalSupport,
         Double objectivityOfAssessment,
-        String comment
+        String comment,
+        LocalDate date
 ) {
 }

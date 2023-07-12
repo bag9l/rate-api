@@ -43,7 +43,7 @@ public class Lecturer extends User {
     )
     @ToString.Exclude
     @JsonManagedReference
-    private List<Statistic> statistics = new ArrayList<>();
+    private List<Feedback> feedbacks = new ArrayList<>();
 
 
     public Lecturer(String login,
@@ -53,7 +53,7 @@ public class Lecturer extends User {
                     List<Subject> subjects,
                     Degree degree,
                     Department department,
-                    List<Statistic> statistics,
+                    List<Feedback> feedbacks,
                     Boolean isExpired,
                     Boolean isLocked,
                     Boolean isCredentialsExpired,
@@ -63,7 +63,7 @@ public class Lecturer extends User {
         this.subjects = subjects;
         this.degree = degree;
         this.department = department;
-        this.statistics = statistics;
+        this.feedbacks = feedbacks;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Lecturer extends User {
                 "degree=" + degree +
                 ", department=" + department +
                 ", subjects=" + subjects +
-                ", statistics=" + statistics +
+                ", feedbacks=" + feedbacks +
                 '}';
     }
 }

@@ -2,7 +2,7 @@ package com.rate.api.dto;
 
 import jakarta.validation.constraints.*;
 
-public record NewStatistic(
+public record NewFeedback(
         @Min(value = 0, message = "quality of teaching should not be smaller than 0")
         @Max(value = 10, message = "quality of teaching should not be bigger than 10")
         @NotNull(message = "quality of teaching should not be null")

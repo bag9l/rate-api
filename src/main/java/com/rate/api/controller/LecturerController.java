@@ -1,8 +1,8 @@
 package com.rate.api.controller;
 
-import com.rate.api.dto.NewStatistic;
+import com.rate.api.dto.NewFeedback;
 import com.rate.api.service.LecturerService;
-import com.rate.api.service.StatisticService;
+import com.rate.api.service.FeedbackService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.*;
 public class LecturerController {
 
     private final LecturerService lecturerService;
-    private final StatisticService statisticService;
+    private final FeedbackService feedbackService;
 
 
     @PostMapping("{id}")
     @PreAuthorize("hasAuthority('STUDENT')")
     public ResponseEntity<Void> addResponseForLecturer(@AuthenticationPrincipal UserDetails student,
                                                        @PathVariable("id") String lecturerId,
-                                                       @Valid @RequestBody NewStatistic statistic) {
-        statisticService.addStatistic(statistic, student.getUsername(), lecturerId);
+                                                       @Valid @RequestBody NewFeedback feedback) {
+        feedbackService.addFeedback(feedback, student.getUsername(), lecturerId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
