@@ -1,7 +1,9 @@
 package com.rate.api.controller;
 
+import com.rate.api.dto.PasswordUpdate;
 import com.rate.api.dto.UserProfile;
 import com.rate.api.dto.UserUpdateData;
+import com.rate.api.dto.auth.AuthenticationResponse;
 import com.rate.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,5 +35,12 @@ public class UserController {
                                           @AuthenticationPrincipal UserDetails user) throws IOException {
         userService.updateUser(userUpdateData, userId, user.getUsername());
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping(value = "/password")
+    public ResponseEntity<AuthenticationResponse> changePassword(@RequestBody PasswordUpdate passwordUpdate,
+                                                                 @AuthenticationPrincipal UserDetails user) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                userService.updatePassword(user, passwordUpdate));
     }
 }
