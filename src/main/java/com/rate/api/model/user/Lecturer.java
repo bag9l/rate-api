@@ -71,9 +71,6 @@ public class Lecturer extends User {
         return "Lecturer{" +
                 super.toString() +
                 "degree=" + degree +
-                ", department=" + department +
-                ", subjects=" + subjects +
-                ", feedbacks=" + feedbacks +
                 '}';
     }
 }
